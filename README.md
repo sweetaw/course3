@@ -1,17 +1,17 @@
-##Downloading the zipfiles and extracting the .zip files
-#download the .zip file
+## Downloading the zipfiles and extracting the .zip files
+# download the .zip file
 
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 
 download.file(fileUrl,destfile="C:\\Users\\Anthony\\Documents\\Data Science Course\\Course3\\data\\data\\Dataset.zip")
 
-#extract the files
+# extract the files
 
 unzip(zipfile = "C:\\Users\\Anthony\\Documents\\Data Science Course\\Course3\\data\\data\\Dataset.zip")
 
 
-##Read .txt files into R
-#readme files identifies which files should be used in dataset
+## Read .txt files into R
+# readme files identifies which files should be used in dataset
 
 activitytest  <- read.table("C:\\Users\\Anthony\\Documents\\Data Science Course\\Course3\\data\\data\\UCI HAR Dataset\\test\\Y_test.txt",header = FALSE)
 activitytrain  <- read.table("C:\\Users\\Anthony\\Documents\\Data Science Course\\Course3\\data\\data\\UCI HAR Dataset\\train\\Y_train.txt",header = FALSE)
@@ -21,20 +21,20 @@ featurestest  <- read.table("C:\\Users\\Anthony\\Documents\\Data Science Course\
 featurestrain  <- read.table("C:\\Users\\Anthony\\Documents\\Data Science Course\\Course3\\data\\data\\UCI HAR Dataset\\train\\x_train.txt",header = FALSE)
 
 ## Merge data into one data set
-#rbind the data
+# rbind the data
 
 subject <- rbind(subjecttrain, subjecttest)
 activity <- rbind(activitytrain, activitytest)
 features<- rbind(featurestrain, featurestest)
 
-#Set names
+# Set names
 
 names(subject)<-c("subject")
 names(activity)<- c("activity")
 featuresnames <- read.table("C:\\Users\\Anthony\\Documents\\Data Science Course\\Course3\\data\\data\\UCI HAR Dataset\\features.txt",header = FALSE)
 names(features)<- featuresnames$V2
 
-#combine into data frame
+# Combine into data frame
 
 ## Extracts only the measurements on the mean and standard deviation for each measurement.
 
@@ -50,7 +50,7 @@ data <- subset(DF,select=selectednames)
 
 activitylabels <- read.table("C:\\Users\\Anthony\\Documents\\Data Science Course\\Course3\\data\\data\\UCI HAR Dataset\\activity_labels.txt", header = FALSE)
 
-# change activity descriptions taken from activity_labels.txt
+# Change activity descriptions taken from activity_labels.txt
 
 data$activity[data$activity %in% "1"] <- "WALKING"
 data$activity[data$activity %in% "2"] <- "WALKING UP STAIRS"
@@ -68,7 +68,7 @@ names(data)<-gsub("Gyro", "Gyroscope", names(data))
 names(data)<-gsub("Mag", "Magnitude", names(data))
 names(data)<-gsub("BodyBody", "Body", names(data))
 
-##Reorder and write to tidydat.txt
+## Reorder and write to tidydata.txt
 
 library(plyr) #will need to install if not already complete
 tidydata<-aggregate(. ~subject + activity, data, mean)
